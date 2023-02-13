@@ -8,6 +8,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+*.cfg
 build/
 develop-eggs/
 dist/
@@ -151,3 +152,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 Scripts/
+pyvenv.cfg
