@@ -96,7 +96,7 @@ def run_discord_bot():
                 nowDMCount = tracker.get_match_count(user, mode="deathmatch")
                 if int(nowDMCount) - DEATHMATCH_COUNT_PER_DAY < pastDMCount:
                     victims.append(discordId)
-                f.write(f"{ user } {discordId} { nowDMCount }")
+                f.write(f"{ user } {discordId} { nowDMCount }\n")
             
         msg = "Get fukt losers yall didn't play ur daily 3 dms :skull: :skull: :clown: :clown:"
         for id in victims:
