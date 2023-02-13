@@ -85,7 +85,7 @@ def run_discord_bot():
 
         msg = "```\n"
         for user, discordId, pastDMCount in zip(current_users, current_discord_ids, current_dm_count):
-            msg += f"{ user } | { await interaction.guild.fetch_member(discordId) }"
+            msg += f"{ user } | { await interaction.guild.fetch_member(discordId) } \n"
         msg += "```"
         await interaction.response.send_message(msg)
 
