@@ -80,6 +80,15 @@ def run_discord_bot():
 
         await interaction.response.send_message(f"{ name } deleted from list!")
 
+    @client.tree.command(name = "list_tracked_users")
+    async def list_tracked_users(interaction: discord.Interaction):
+
+        msg = "```\n"
+        for user, discordId, pastDMCount in zip(current_users, current_discord_ids, current_dm_count):
+            msg += f"{ user } | { await interaction.guild.fetch_member(discordId) }"
+        msg += "```"
+        await interaction.response.send_message(msg)
+
 
     @tasks.loop(minutes=1)
     async def once_a_day():
