@@ -189,7 +189,7 @@ def run_discord_bot():
                 val += f"{ myRoundStats.economy.weapon.name } + { myRoundStats.economy.armor.name } | ${ myRoundStats.economy.spent + myRoundStats.economy.remaining } - ${ myRoundStats.economy.spent } = ${ myRoundStats.economy.remaining }"
                 val += "```"
 
-                embed.add_field(name=f"Round { count }", value=val, inline=False)
+                embed.add_field(name=f"Round { count + 1 }", value=val, inline=False)
 
             embed.set_footer(text="DM Teddygat0r#8612 for suggestions to bot")
             embed.set_author(name="Teddygat0r", url="https://github.com/Teddygat0r/pst-tracker-bot")
