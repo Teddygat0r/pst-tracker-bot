@@ -143,6 +143,7 @@ def run_discord_bot():
         await interaction.response.defer()
         if index > 10 or index < 1:
             await interaction.response.send_message("Fuck you index 1-10 only")
+            return
         resp = tracker.get_match_history(name, mode, index)
         if resp == "broke":
             await interaction.response.send_message("Fuck you your inputs are wrong")

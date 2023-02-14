@@ -72,7 +72,6 @@ def statKast(puuid, round):
     
     return assists, traded, survived
 
-    return False
 
 def refresh_operator_data():
     with open('operator_data.json', 'w') as myf:
