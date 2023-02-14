@@ -138,11 +138,11 @@ def run_discord_bot():
             await interaction.followup.send(embed=embed)
 
     @client.tree.command(name = "detail_match")
-    @app_commands.describe(name = "Select User", mode = "What mode? (competitive, unrated, deathmatch, spikerush, swiftplay, escalation, replication)", index="Index of game (1-10)")
+    @app_commands.describe(name = "Select User", mode = "What mode? (competitive, unrated, deathmatch, spikerush, swiftplay, escalation, replication)", index="Index of game (1-5)")
     async def detail_match(interaction: discord.Interaction, name: str, mode: str='competitive', index: int=1):
         await interaction.response.defer()
-        if index > 10 or index < 1:
-            await interaction.response.send_message("Fuck you index 1-10 only")
+        if index > 5 or index < 1:
+            await interaction.response.send_message("Fuck you index 1-5 only")
             return
         resp = tracker.get_match_history(name, mode, index)
         if resp == "broke":
