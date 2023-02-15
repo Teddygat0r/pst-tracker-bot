@@ -38,16 +38,18 @@ def getKAST(puuid, round):
     murderer = None
     for player in round.player_stats:
         for kill in player.kill_events:
+            if kill.victim_puuid == puuid:
+                pdeathTime = kill.kill_time_in_round
+                murderer = kill.killer_puuid
+    for player in round.player_stats:
+        for kill in player.kill_events:
             if kill.killer_puuid == puuid:
                 return True
             if kill.victim_puuid == murderer and kill.kill_time_in_round - pdeathTime < 5000:
                 return True
             if puuid in [ast.assistant_puuid for ast in kill.assistants]:
                 return True
-            if kill.victim_puuid == puuid:
-                pdeathTime = kill.kill_time_in_round
-                murderer = kill.killer_puuid
-    
+            
     if pdeathTime == -1:
         return True
 
@@ -59,16 +61,20 @@ def statKast(puuid, round):
     traded = False
     survived = True
     assists = 0
+
+    for player in round.player_stats:
+        for kill in player.kill_events:
+            if kill.victim_puuid == puuid:
+                pdeathTime = kill.kill_time_in_round
+                murderer = kill.killer_puuid
+                survived = False
     for player in round.player_stats:
         for kill in player.kill_events:
             if kill.victim_puuid == murderer and kill.kill_time_in_round - pdeathTime < 5000:
                 traded = True
             if puuid in [ast.assistant_puuid for ast in kill.assistants]:
                 assists += 1
-            if kill.victim_puuid == puuid:
-                pdeathTime = kill.kill_time_in_round
-                murderer = kill.killer_puuid
-                survived = False
+            
     
     return assists, traded, survived
 
