@@ -201,7 +201,7 @@ def run_discord_bot():
     async def once_a_day():
         now = datetime.utcnow()
         
-        if now.hour == 8 and now.minutes==0:
+        if now.hour == 8 and now.minute==0:
             channel = client.get_channel(CHN_ID)
             await check_dm_status(channel)
 
