@@ -153,3 +153,4 @@ cython_debug/
 #.idea/
 Scripts/
 pyvenv.cfg
+pyvenv.cfg
