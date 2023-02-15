@@ -157,11 +157,13 @@ def run_discord_bot():
 
             if name.split('#')[0].lower() in [player.name.lower() for player in game.players.red]:
                 myteam = game.teams.red
+                myteamname = "Red"
                 myTeamList = game.players.red
                 theirTeamList = game.players.blue
             else: 
                 myteam = game.teams.blue
                 myTeamList = game.players.blue
+                myteamname = "Blue"
                 theirTeamList = game.players.red
             for player in myTeamList:
                 if name.split('#')[0].lower() == player.name.lower():
@@ -197,13 +199,14 @@ def run_discord_bot():
                 trd_emoji = "✅" if traded else "❌"
                 svd_emoji = "✅" if survived else "❌"
                 l_rd_emoji = "❗❗❗ No KAST! ❗❗❗" if rounds in L_rds else ""
-                win_emoji = "🏆" if rounds.winning_team == myteam else ""
+                win_emoji = "🏆" if rounds.winning_team == myteamname else ""
+
 
                 val = f"```{ myRoundStats.kills } / { assists } / Survived: { svd_emoji } / Traded: { trd_emoji }\n"
                 val += f"{ myRoundStats.economy.weapon.name } + { myRoundStats.economy.armor.name } | ${ myRoundStats.economy.spent + myRoundStats.economy.remaining } - ${ myRoundStats.economy.spent } = ${ myRoundStats.economy.remaining }"
                 val += "```"
 
-                embed.add_field(name=f"Round { count + 1 } { win_emoji }     { l_rd_emoji }", value=val, inline=False)
+                embed.add_field(name=f"Round { count + 1 }   { win_emoji }     { l_rd_emoji }", value=val, inline=False)
 
             embed.set_footer(text="DM Teddygat0r#8612 for suggestions to bot")
             embed.set_author(name="Teddygat0r", url="https://github.com/Teddygat0r/pst-tracker-bot")
