@@ -29,8 +29,6 @@ def run_discord_bot():
             current_dm_count.append(int(content[2]))
 
 
-
-
     @client.event
     async def on_ready():
         print(f'{ client.user } is now running!')
@@ -139,8 +137,14 @@ def run_discord_bot():
 
     @client.tree.command(name = "detail_match")
     @app_commands.describe(name = "Select User", mode = "What mode? (competitive, unrated, deathmatch, spikerush, swiftplay, escalation, replication)", index="Index of game (1-5)")
-    async def detail_match(interaction: discord.Interaction, name: str, mode: str='competitive', index: int=1):
+    async def detail_match(interaction: discord.Interaction, name: str = "", mode: str='competitive', index: int=1):
         await interaction.response.defer()
+        if name == "":
+            name = get_username_from_discord(interaction)
+        if name == "":
+            await interaction.response.send_message("Fuck you give a username or register with /list_tracked_users")
+            return
+
         if index > 5 or index < 1:
             await interaction.response.send_message("Fuck you index 1-5 only")
             return
@@ -166,9 +170,14 @@ def run_discord_bot():
             
             headshots = round(me.stats.headshots / (me.stats.bodyshots + me.stats.headshots + me.stats.legshots) * 100, 2 )
             kast = 0
+            L_rds = []
 
             for rounds in game.rounds:
-                kast += 1 if tracker.getKAST(me.puuid, rounds) else 0
+                if tracker.getKAST(me.puuid, rounds):
+                    kast += 1
+                else:
+                    L_rds.append(rounds)
+                
             
             kast = round(kast / len(game.rounds) * 100, 2)
 
@@ -185,11 +194,15 @@ def run_discord_bot():
                     
                 assists, traded, survived = tracker.statKast(me.puuid, rounds)
 
-                val = f"```{ myRoundStats.kills } / { assists } / Survived: { survived } / Traded: { traded }\n"
+                trd_emoji = "✅" if traded else "❌"
+                svd_emoji = "✅" if survived else "❌"
+                l_rd_emoji = "❗❗❗ No KAST! ❗❗❗" if rounds in L_rds else ""
+
+                val = f"```{ myRoundStats.kills } / { assists } / Survived: { svd_emoji } / Traded: { trd_emoji }\n"
                 val += f"{ myRoundStats.economy.weapon.name } + { myRoundStats.economy.armor.name } | ${ myRoundStats.economy.spent + myRoundStats.economy.remaining } - ${ myRoundStats.economy.spent } = ${ myRoundStats.economy.remaining }"
                 val += "```"
 
-                embed.add_field(name=f"Round { count + 1 }", value=val, inline=False)
+                embed.add_field(name=f"Round { count + 1 }   { l_rd_emoji }", value=val, inline=False)
 
             embed.set_footer(text="DM Teddygat0r#8612 for suggestions to bot")
             embed.set_author(name="Teddygat0r", url="https://github.com/Teddygat0r/pst-tracker-bot")
@@ -218,6 +231,12 @@ def run_discord_bot():
         for id in victims:
             msg += f"<@{ id }> "
         await channel.send(msg)
+
+    def get_username_from_discord(interaction: discord.Interaction):
+        discord_uuid = interaction.user.id
+        if discord_uuid in current_discord_ids:
+            return current_users[current_discord_ids.index(discord_uuid)]
+        return ""
 
 
 
